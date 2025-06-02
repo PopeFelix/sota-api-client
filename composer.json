@@ -1,7 +1,6 @@
 {
   "name": "queenaurelia/sota-api-client",
   "description": "A PHP client for the SOTA (Summits On The Air) API",
-  "version": "0.0.1",
   "require": {
     "php": ">= 7.2.5",
     "guzzlehttp/guzzle": "^7.0"
