@@ -49,7 +49,6 @@ final class Client
     private ?HandlerStack $handlerStack;
     private UploadData $uploadData;
 
-    private string $grantType = 'password';
     private const SOTA_OIDC_URL_BASE = "https://sso.sota.org.uk/auth/realms/SOTA/protocol/openid-connect";
     private const SOTA_API_URL_BASE = "https://api-db2.sota.org.uk/";
 
@@ -72,6 +71,8 @@ final class Client
         $this->clientId = $config['client_id'];
         if (isset($config['handler'])) {
             $this->handlerStack = $config['handler'];
+        } else {
+            $this->handlerStack = null;
         }
         $this->login($config['username'], $config['password']);
         $this->uploadData = new UploadData();
@@ -89,7 +90,7 @@ final class Client
     private function login(string $username, string $password): void
     {
         $http = $this->getHttpClient();
-        $res = $http->post(self::SOTA_OIDC_URL_BASE . '/token', ['form_data' => ['client_id' => $this->clientId, 'grant_type' => $this->grantType, 'username' => $username, 'password' => $password]]);
+        $res = $http->post(self::SOTA_OIDC_URL_BASE . '/token', ['form_params' => ['client_id' => $this->clientId, 'grant_type' => 'password', 'username' => $username, 'password' => $password]]);
         $code = $res->getStatusCode();
         $body = (string) $res->getBody();
 
